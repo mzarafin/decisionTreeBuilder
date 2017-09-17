@@ -2084,25 +2084,25 @@
 
 		findChildren: function(nodes) {
 			var parents = [0]; // start with a a root node
-			console.log('using findChildren ');
-			console.log(parents);
-			console.log(nodes);
+			//console.log('findChildren:');
+			//console.log(nodes);
+			var j = 1;
+			console.log('structure:');
+			console.log(this.jsonStructure);
 
 			while(parents.length) {
 				var parentId = parents.pop(),
 					parent = this.findNode(this.jsonStructure.nodeStructure, parentId),
 					i = 0, len = nodes.length,
 					children = [];
-				console.log('parentId');
-				console.log(parentId);
-
-				console.log('parent');
-				console.log(parent);
+					//console.log('parent'+j);
+					j++;
+					//console.log(parent);
 				for(;i<len;i++) {
 					var node = nodes[i];
-					console.log(node);
-					if(node.parent && (node.parent.node._json_id == parentId)) { // skip config and root nodes
+					if(node.parent && (node.parent._json_id == parentId)) { // skip config and root nodes
 						node._json_id = this.getID();
+						//console.log(node);
 
 						delete node.parent;
 
@@ -2148,12 +2148,10 @@
 	 * Chart constructor.
 	 */
 	var Treant = function( jsonConfig, callback, jQuery ) {
-		console.log('creating new tree: ');
-		console.log(jsonConfig);
 		if ( jsonConfig instanceof Array ) {
 			jsonConfig = JSONconfig.make( jsonConfig );
 		}
-		console.log(jsonConfig);
+		console.log(JSON.stringify(jsonConfig));
 
 		// optional
 		if ( jQuery ) {

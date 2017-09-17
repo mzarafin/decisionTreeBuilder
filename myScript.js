@@ -10,6 +10,10 @@ $(document).ready(function(){
     };
     var lastNodeIndex = 0;
 
+    function sleep(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
     var example1Attributes = function() {
         var attributes = {
             'Gender': ['Man', 'Woman'],
@@ -38,65 +42,70 @@ $(document).ready(function(){
         return classes;
     };
 
-    var getNewNode = function(parent, text, aClass){
+    var getNewNode = function(parent, text, aClass, attribute, value){
+        console.log('getNewNode');
+        console.log(lastNodeIndex);
         if(text === undefined) text = "Select attribute here";
         if(aClass === undefined) aClass = "undecided";
-        if (parent === undefined)
+        if (parent === undefined) {
             return {
                 text: {
                     name: text
                 },
                 HTMLclass: aClass,
                 HTMLid: ''+lastNodeIndex,
-
+                _json_id: lastNodeIndex
             };
-        else 
+        }
+        else {
             return {
-                text: {
-                    name: text,
+                text:{
+                    name: attribute+"="+value,
+                    title: text,
                 },
                 HTMLclass: aClass,
                 HTMLid: ''+lastNodeIndex,
-                parent: parent
+                parent: parent,
+                _json_id: lastNodeIndex
             };
+        }
     }
 
 
     var generateConfig = function(){
         var treeConfig = [config];
         for (var nodeIndex in allNodes){
-            treeConfig.push(allNodes[nodeIndex]['node']);
+            var node = allNodes[nodeIndex];
+            treeConfig.push(node);
         }
         return treeConfig;
     }
 
     var rootNode = getNewNode();
+    /*
     var allNodes = {
         0: {
             node: rootNode,
             nodeName: 'rootNode',
+            /*
             children: [],
             type: 'none',
             value: 'none',
             parent: 'none'
             }
-    };
+    };*/
+    var allNodes = [rootNode];
 
     chart_config = generateConfig();
 
-    console.log(chart_config);
+    //console.log(chart_config);
     var tree = new Treant(chart_config, null, $);
 
     var attributes = example1Attributes();
     var classes = example1Classes();
     var selected;
 
-    $('.undecided').on('click', function(e){
-        /*
-        console.log('click');
-        var id = $(this).attr('id');
-        var node = allNodes[id];
-        */
+    $('#basic-example').on('click', '.undecided', function(e){
         if(selected){
             selected.removeClass('selected');
         }
@@ -113,35 +122,33 @@ $(document).ready(function(){
         selected.removeClass('undecided');
         var attribute = $(this).attr('id');
         selected.addClass(attribute);
-        //var selectedNodeName = allNodes[id]['nodeName'];
         var selectedNodeObject = allNodes[id];
-        selectedNodeObject['node']['HTMLclass'] = attribute;
-        selectedNodeObject['node']['text']['name'] = $(this).attr('data-name');
-        //console.log(selectedNodeName);
-
-        //var attributeIndex = $(this).attr('data-index');
+        selectedNodeObject['HTMLclass'] = attribute;
+        selectedNodeObject['text']['name'] = $(this).attr('data-name');
         var attributeName = $(this).attr('data-name');
-
-        //console.log(attributes[attributeName]);
 
         for(var valueIndex in attributes[attributeName]) {
             var value = attributes[attributeName][valueIndex];
             lastNodeIndex++;
-            var newNode = getNewNode(selectedNodeObject);
-            allNodes[lastNodeIndex] = {
-                node: newNode
-            };
+            //    var getNewNode = function(parent, text, aClass, attribute, value){
+            var newNode = getNewNode(selectedNodeObject, undefined, 'undecided', attributeName, value);
+            allNodes[lastNodeIndex] = newNode;
+            //Tree.prototype.addNode(selectedNodeObject, newNode);
         }
+        console.log('before generate config');
+        console.log(JSON.stringify(allNodes));
+
         var new_config = generateConfig();
-        //console.log(allNodes);
-        console.log(new_config);
-        //console.log(tree);
+        console.log('before destroy');
+        console.log(JSON.stringify(allNodes));
         tree.destroy();
-        window.setTimeout(function() {
-            console.log('timeout');
-            tree = new Treant(new_config);
-            console.log(tree);
-        }, 1);
+        console.log('before tree build');
+        console.log(JSON.stringify(allNodes));
+        //window.setTimeout(function() {
+        tree = new Treant(new_config);
+        //}, 1);
+        console.log('after all');
+        console.log(JSON.stringify(allNodes));
 
     });
 });
