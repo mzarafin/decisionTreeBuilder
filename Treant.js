@@ -2087,8 +2087,6 @@
 			//console.log('findChildren:');
 			//console.log(nodes);
 			var j = 1;
-			console.log('structure:');
-			console.log(this.jsonStructure);
 
 			while(parents.length) {
 				var parentId = parents.pop(),

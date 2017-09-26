@@ -43,8 +43,6 @@ $(document).ready(function(){
     };
 
     var getNewNode = function(parent, text, aClass, attribute, value){
-        console.log('getNewNode');
-        console.log(lastNodeIndex);
         if(text === undefined) text = "Select attribute here";
         if(aClass === undefined) aClass = "undecided";
         if (parent === undefined) {
@@ -72,35 +70,25 @@ $(document).ready(function(){
     }
 
 
-    var generateConfig = function(){
+    var generateConfig = function() {
         var treeConfig = [config];
         for (var nodeIndex in allNodes){
             var node = allNodes[nodeIndex];
+            var children = node["children"];
+            for (var childIdx in children) {
+                var child = children[childIdx];
+                allNodes[child["HTMLid"]]["parent"] = node;
+            }
+            delete node["children"];
             treeConfig.push(node);
         }
         return treeConfig;
     }
 
     var rootNode = getNewNode();
-    /*
-    var allNodes = {
-        0: {
-            node: rootNode,
-            nodeName: 'rootNode',
-            /*
-            children: [],
-            type: 'none',
-            value: 'none',
-            parent: 'none'
-            }
-    };*/
     var allNodes = [rootNode];
-
     chart_config = generateConfig();
-
-    //console.log(chart_config);
     var tree = new Treant(chart_config, null, $);
-
     var attributes = example1Attributes();
     var classes = example1Classes();
     var selected;
@@ -124,7 +112,12 @@ $(document).ready(function(){
         selected.addClass(attribute);
         var selectedNodeObject = allNodes[id];
         selectedNodeObject['HTMLclass'] = attribute;
-        selectedNodeObject['text']['name'] = $(this).attr('data-name');
+        var className = $(this).attr('data-name');
+        if (selectedNodeObject['text']['title']){
+            selectedNodeObject['text']['title'] = className;
+        } else {
+            selectedNodeObject['text']['name'] = className;
+        }
         var attributeName = $(this).attr('data-name');
 
         for(var valueIndex in attributes[attributeName]) {
@@ -137,18 +130,15 @@ $(document).ready(function(){
         }
         console.log('before generate config');
         console.log(JSON.stringify(allNodes));
-
         var new_config = generateConfig();
         console.log('before destroy');
-        console.log(JSON.stringify(allNodes));
+        console.log(JSON.stringify(new_config));
         tree.destroy();
-        console.log('before tree build');
-        console.log(JSON.stringify(allNodes));
         //window.setTimeout(function() {
         tree = new Treant(new_config);
         //}, 1);
         console.log('after all');
-        console.log(JSON.stringify(allNodes));
+        console.log(tree);
 
     });
 });
