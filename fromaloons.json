@@ -1,0 +1,52 @@
+var fromaloonsDataset = {
+"Apple" : {
+        "Category" :  "Fruit",
+        "Ends_With" :    "Vowel",
+        "Starts_With" :    "Vowel",
+        "Number_letters" :     "5",
+        "class": "Fromaloon"
+},
+"Grape" : {
+        "Category" :  "Fruit",
+        "Ends_With" :    "Vowel",
+        "Starts_With" :    "Consonant",
+        "Number_letters" :     "5",
+        "class": "Fromaloon"
+},
+"Mango" : {
+        "Category" :  "Fruit",
+        "Ends_With" :    "Vowel",
+        "Starts_With" :    "Consonant",
+        "Number_letters" :     "5",
+        "class": "Fromaloon"
+},
+"Horse" : {
+        "Category" :  "Animal",
+        "Ends_With" :    "Vowel",
+        "Starts_With" :    "Consonant",
+        "Number_letters" :     "5",
+        "class": "Fromaloon"
+},
+"Car" : {
+        "Category" :  "Vehicle",
+        "Ends_With" :    "Consonant",
+        "Starts_With" :    "Consonant",
+        "Number_letters" :     "3",
+        "class": "Not_Fromaloon"
+},
+"Banana" : {
+        "Category" :  "Fruit",
+        "Ends_With" :    "Vowel",
+        "Starts_With" :    "Consonant",
+        "Number_letters" :     "6",
+        "class": "Not_Fromaloon"
+}
+};
+var fromaloonsClasses = ["Fromaloon", "Not_Fromaloon"];
+
+var fromaloonsAttributes = {
+            'Category': ['Animal', 'Fruit', 'Vehicle'],
+            'Starts_With': ['Vowel', 'Consonant'],
+            'Ends_With': ['Vowel', 'Consonant'],
+            'Number_letters': ['5', '3', '6']
+        };

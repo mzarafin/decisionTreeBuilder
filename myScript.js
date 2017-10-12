@@ -94,6 +94,17 @@ $(document).ready(function(){
         initializeEvents();
     }
 
+    var initializeFromaloons = function() {
+        classes = fromaloonsClasses;
+        attributes = fromaloonsAttributes;
+        dataset = fromaloonsDataset;
+        initializeClasses();
+        initializeAttributes();
+        initializeDataset();        
+        initializeTree();
+        initializeEvents();
+    }
+
     var initializeTree = function () {
         rootNode = getNewNode();
         nodeElements = [rootNode];
@@ -252,6 +263,12 @@ $(document).ready(function(){
         $('#examples').hide();
         initializeSuperheroes();
     });
+
+    $('#fromaloons').on('click', function(e){
+        $('#examples').hide();
+        initializeFromaloons();
+    });
+
 
     //initializeSuperheroes();
 
