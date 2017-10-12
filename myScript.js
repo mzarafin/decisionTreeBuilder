@@ -111,8 +111,8 @@ $(document).ready(function(){
 
         for (var name in dataset) {
             var instance = dataset[name];
-            $('#dataset').append("<tr>");
-            var instanceNameElement = "<td class=\'instanceName\' id=instance"+name+"data-name=instance"+name+">"+name+"</td>";
+            $('#dataset').append("<tr id="+name+">");
+            var instanceNameElement = "<td class=\'instanceName\' id=instance"+name+" data-name=instance"+name+">"+name+"</td>";
             $('#dataset').append(instanceNameElement);
 
             for (var attributeName in instance) {
@@ -144,6 +144,8 @@ $(document).ready(function(){
                 },
                 HTMLclass: aClass,
                 HTMLid: ''+lastNodeIndex,
+                _json_data_attribute: attribute,
+                _json_data_value: value,
                 _json_id: lastNodeIndex
             };
         }
@@ -156,6 +158,8 @@ $(document).ready(function(){
                 HTMLclass: aClass,
                 HTMLid: ''+lastNodeIndex,
                 parent: parent,
+                _json_data_attribute: attribute,
+                _json_data_value: value,
                 _json_id: lastNodeIndex
             };
         }
@@ -164,12 +168,12 @@ $(document).ready(function(){
 
     var generateConfig = function() {
         var treeConfig = [config];
-        for (var nodeIndex in allNodes){
-            var node = allNodes[nodeIndex];
+        for (var nodeIndex in nodeElements){
+            var node = nodeElements[nodeIndex];
             var children = node["children"];
             for (var childIdx in children) {
                 var child = children[childIdx];
-                allNodes[child["HTMLid"]]["parent"] = node;
+                nodeElements[child["HTMLid"]]["parent"] = node;
             }
             delete node["children"];
             treeConfig.push(node);
@@ -179,7 +183,8 @@ $(document).ready(function(){
 
     initializeExample1();
     var rootNode = getNewNode();
-    var allNodes = [rootNode];
+    var nodeElements = [rootNode];
+    var allNodes = [{node: rootNode, attribute: undefined, value: undefined}];
     chart_config = generateConfig();
     var tree = new Treant(chart_config, null, $);
     var selected;
@@ -201,7 +206,7 @@ $(document).ready(function(){
         selected.removeClass('undecided');
         var attribute = $(this).attr('id');
         selected.addClass(attribute);
-        var selectedNodeObject = allNodes[id];
+        var selectedNodeObject = nodeElements[id];
         selectedNodeObject['HTMLclass'] = attribute;
         var className = $(this).attr('data-name');
         if (selectedNodeObject['text']['title']){
@@ -215,7 +220,13 @@ $(document).ready(function(){
             var value = attributes[attributeName][valueIndex];
             lastNodeIndex++;
             var newNode = getNewNode(selectedNodeObject, undefined, 'undecided', attributeName, value);
-            allNodes[lastNodeIndex] = newNode;
+            allNodes[lastNodeIndex] = {
+                attribute: attributeName,
+                value: value,
+                node: newNode,
+                parent: allNodes[id],
+            };
+            nodeElements[lastNodeIndex] = newNode;
         }
         var new_config = generateConfig();
         tree.destroy();
@@ -232,7 +243,7 @@ $(document).ready(function(){
         selected.removeClass('undecided');
         var attribute = $(this).attr('id');
         selected.addClass(attribute);
-        var selectedNodeObject = allNodes[id];
+        var selectedNodeObject = nodeElements[id];
         selectedNodeObject['HTMLclass'] = attribute;
         var className = $(this).attr('data-name');
         if (selectedNodeObject['text']['title']){
@@ -245,8 +256,32 @@ $(document).ready(function(){
         tree = new Treant(new_config);
     });
 
-    $('.node-name').on('mouseover', function(e){
+    $('#basic-example').on('mouseover', '.node', function(e) {
         var elementHovered = $(this).attr('id');
+        var elementNode = nodeElements[elementHovered];
+        var node = allNodes[elementHovered];
 
+        var restrictions = {};
+        while(node.attribute){
+            restrictions[ node.attribute ] = node.value;
+            node = node.parent;
+        }
+        for(var dataId in dataset){
+            var meetsCriteria = true;
+            for(var attribute in restrictions){
+                if(dataset[dataId][attribute] != restrictions[attribute]){
+                    meetsCriteria = false;
+                    break;
+                }
+            }
+
+            if(meetsCriteria){
+                $('#instance'+dataId).addClass('highlight');
+            }
+        }
+    });
+
+    $('#basic-example').on('mouseleave', '.node', function(e) {
+        $('.highlight').removeClass('highlight');
     });
 });
