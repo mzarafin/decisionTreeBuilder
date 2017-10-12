@@ -11,21 +11,26 @@ $(document).ready(function(){
     var lastNodeIndex = 0;
     var attributes; 
     var classes;
+    var dataset;
 
 
     function sleep(ms) {
       return new Promise(resolve => setTimeout(resolve, ms));
     }
 
-    var example1Attributes = function() {
-        var attributes = {
-            'Gender': ['Man', 'Woman'],
-            'Mask': ['Yes', 'No'],
-            'Cape': ['Yes', 'No'],
-            'Tie': ['Yes', 'No'],
-            'Ears': ['Yes', 'No'],
-            'Fights': ['Yes', 'No']
-        };
+    function readTextFile(file, callback) {
+        var rawFile = new XMLHttpRequest();
+        rawFile.overrideMimeType("application/json");
+        rawFile.open("GET", file, true);
+        rawFile.onreadystatechange = function() {
+            if (rawFile.readyState === 4 && rawFile.status == "200") {
+                callback(rawFile.responseText);
+            }
+        }
+        rawFile.send(null);
+    }
+
+    var initializeAttributes = function() {
         var i = 0;
         for (var attribute in attributes){
             var element = "<div class=\'attribute attribute"+i+"\' id=attribute"+i+" data-name="+attribute+">"+attribute+"</div>";
@@ -35,8 +40,7 @@ $(document).ready(function(){
         return attributes;
     };
 
-    var example1Classes = function() {
-        var classes = ['Good', 'Evil'];
+    var initializeClasses = function() {
         for (var i = classes.length-1; i >=0 ; i--) {
             var aClass = classes[i];
             var element = "<div class=\'class class"+i+"\' id=class"+i+" data-name="+aClass+">"+aClass+"</div>";
@@ -45,62 +49,7 @@ $(document).ready(function(){
         return classes;
     };
 
-    var example1Dataset = function() {
-        var dataset = {};
-        dataset['Batman'] = {};
-        dataset['Batman']['Gender'] = 'Man';
-        dataset['Batman']['Mask'] = 'Yes';
-        dataset['Batman']['Cape'] = 'Yes';
-        dataset['Batman']['Tie'] = 'No';
-        dataset['Batman']['Ears'] = 'Yes';
-        dataset['Batman']['Fights'] = 'Yes';
-        dataset['Batman']['class'] = 'Good';
-
-        dataset['Robin'] = {};
-        dataset['Robin']['Gender'] = 'Man';
-        dataset['Robin']['Mask'] = 'Yes';
-        dataset['Robin']['Cape'] = 'Yes';
-        dataset['Robin']['Tie'] = 'No';
-        dataset['Robin']['Ears'] = 'No';
-        dataset['Robin']['Fights'] = 'Yes';
-        dataset['Robin']['class'] = 'Good';
-
-        dataset['Alfred'] = {};
-        dataset['Alfred']['Gender'] = 'Man';
-        dataset['Alfred']['Mask'] = 'No';
-        dataset['Alfred']['Cape'] = 'No';
-        dataset['Alfred']['Tie'] = 'Yes';
-        dataset['Alfred']['Ears'] = 'No';
-        dataset['Alfred']['Fights'] = 'No';
-        dataset['Alfred']['class'] = 'Good';
-
-        dataset['Penguin'] = {};
-        dataset['Penguin']['Gender'] = 'Man';
-        dataset['Penguin']['Mask'] = 'No';
-        dataset['Penguin']['Cape'] = 'No';
-        dataset['Penguin']['Tie'] = 'Yes';
-        dataset['Penguin']['Ears'] = 'No';
-        dataset['Penguin']['Fights'] = 'Yes';
-        dataset['Penguin']['class'] = 'Evil';
-
-        dataset['Catwoman'] = {};
-        dataset['Catwoman']['Gender'] = 'Woman';
-        dataset['Catwoman']['Mask'] = 'Yes';
-        dataset['Catwoman']['Cape'] = 'No';
-        dataset['Catwoman']['Tie'] = 'No';
-        dataset['Catwoman']['Ears'] = 'Yes';
-        dataset['Catwoman']['Fights'] = 'No';
-        dataset['Catwoman']['class'] = 'Evil';
-
-        dataset['Joker'] = {};
-        dataset['Joker']['Gender'] = 'Man';
-        dataset['Joker']['Mask'] = 'No';
-        dataset['Joker']['Cape'] = 'No';
-        dataset['Joker']['Tie'] = 'No';
-        dataset['Joker']['Ears'] = 'No';
-        dataset['Joker']['Fights'] = 'No';
-        dataset['Joker']['class'] = 'Evil';
-
+    var initializeDataset = function() {
         $('#dataset').append("<tr>");
         $('#dataset').append("<th>ID</th>");
         for (var attribute in attributes){
@@ -128,10 +77,13 @@ $(document).ready(function(){
         return dataset;
     }
 
-    var initializeExample1 = function() {
-        classes = example1Classes();
-        attributes = example1Attributes();
-        dataset = example1Dataset();
+    var initializeSuperheroes = function() {
+        classes = superheroesClasses;
+        attributes = superheroesAttributes;
+        dataset = superheroesDataset;
+        initializeClasses();
+        initializeAttributes();
+        initializeDataset();
     }
 
     var getNewNode = function(parent, text, aClass, attribute, value){
@@ -181,7 +133,8 @@ $(document).ready(function(){
         return treeConfig;
     }
 
-    initializeExample1();
+    initializeSuperheroes();
+
     var rootNode = getNewNode();
     var nodeElements = [rootNode];
     var allNodes = [{node: rootNode, attribute: undefined, value: undefined}];
