@@ -15,16 +15,18 @@ body { background: #f2f2f2; font-size: 14px; font-family: Nunito;}
 .node-name { font-weight: bold;}
 
 .nodeExample1,.attribute,.class {
-    padding: 3px;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    border-radius: 3px;
+    padding: 4px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
     background-color: #ffffff;
     border: 1px solid #000;
+    color: white;
 }
 
 .nodeExample1.undecided {
     background-color:  #ffffcc;
+    color: black;
 }
 
 .nodeExample1.undecided.selected {
@@ -41,6 +43,7 @@ body { background: #f2f2f2; font-size: 14px; font-family: Nunito;}
     margin-right:10px;
     margin-top: 10px;
     margin-left: 10px;
+    color: white;
 }
 
 .class {
@@ -96,28 +99,28 @@ th {
 }
 
 .class0{
-    background-color: #00e600;
+    background-color: #86AC41;
 }
 .class1{
-    background-color: #ff0000;
+    background-color: #BA5536;
 }
 .attribute0{
-    background-color: #66b3ff;
+    background-color: #375E97;
 }
 .attribute1{
-    background-color: #80ffaa;
+    background-color: #FB6542;
 }
 .attribute2{
-    background-color: #ffff66;
+    background-color: #FFBB00;
 }
 .attribute3{
-    background-color: #ffb3d9;
+    background-color: #4CB5F5;
 }
 .attribute4{
-    background-color: #d9b3ff;
+    background-color: #20948B;
 }
 .attribute5{
-    background-color: #ffcc80;
+    background-color: #89DA59;
 }
 .attribute6{
     background-color: #85e0e0;
