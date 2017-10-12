@@ -12,6 +12,12 @@ $(document).ready(function(){
     var attributes; 
     var classes;
     var dataset;
+    var rootNode;
+    var nodeElements = [];
+    var allNodes = [];
+    var tree;
+    var selected;
+    var chart_config;
 
 
     function sleep(ms) {
@@ -83,7 +89,116 @@ $(document).ready(function(){
         dataset = superheroesDataset;
         initializeClasses();
         initializeAttributes();
-        initializeDataset();
+        initializeDataset();        
+        initializeTree();
+        initializeEvents();
+    }
+
+    var initializeTree = function () {
+        rootNode = getNewNode();
+        nodeElements = [rootNode];
+        allNodes = [{node: rootNode, attribute: undefined, value: undefined}];
+        chart_config = generateConfig();
+        tree = new Treant(chart_config, null, $);
+    }
+
+    var initializeEvents = function() {
+                $('#basic-example').on('click', '.undecided', function(e){
+            if(selected){
+                selected.removeClass('selected');
+            }
+            selected = $(this);
+            $(this).addClass('selected');
+        });
+
+        $('.attribute').on('click', function(e){
+            if(!selected){
+                return;
+            }
+            var id = selected.attr('id');
+            selected.removeClass('selected');
+            selected.removeClass('undecided');
+            var attribute = $(this).attr('id');
+            selected.addClass(attribute);
+            var selectedNodeObject = nodeElements[id];
+            selectedNodeObject['HTMLclass'] = attribute;
+            var className = $(this).attr('data-name');
+            if (selectedNodeObject['text']['title']){
+                selectedNodeObject['text']['title'] = className;
+            } else {
+                selectedNodeObject['text']['name'] = className;
+            }
+            var attributeName = $(this).attr('data-name');
+
+            for(var valueIndex in attributes[attributeName]) {
+                var value = attributes[attributeName][valueIndex];
+                lastNodeIndex++;
+                var newNode = getNewNode(selectedNodeObject, undefined, 'undecided', attributeName, value);
+                allNodes[lastNodeIndex] = {
+                    attribute: attributeName,
+                    value: value,
+                    node: newNode,
+                    parent: allNodes[id],
+                };
+                nodeElements[lastNodeIndex] = newNode;
+            }
+            var new_config = generateConfig();
+            tree.destroy();
+            tree = new Treant(new_config);
+
+        });
+
+        $('.class').on('click', function(e){
+            if(!selected){
+                return;
+            }
+            var id = selected.attr('id');
+            selected.removeClass('selected');
+            selected.removeClass('undecided');
+            var attribute = $(this).attr('id');
+            selected.addClass(attribute);
+            var selectedNodeObject = nodeElements[id];
+            selectedNodeObject['HTMLclass'] = attribute;
+            var className = $(this).attr('data-name');
+            if (selectedNodeObject['text']['title']){
+                selectedNodeObject['text']['title'] = className;
+            } else {
+                selectedNodeObject['text']['name'] = className;
+            }
+            var new_config = generateConfig();
+            tree.destroy();
+            tree = new Treant(new_config);
+        });
+
+        $('#basic-example').on('mouseover', '.node', function(e) {
+            var elementHovered = $(this).attr('id');
+            var elementNode = nodeElements[elementHovered];
+            var node = allNodes[elementHovered];
+
+            var restrictions = {};
+            while(node.attribute){
+                restrictions[ node.attribute ] = node.value;
+                node = node.parent;
+            }
+            for(var dataId in dataset){
+                var meetsCriteria = true;
+                for(var attribute in restrictions){
+                    if(dataset[dataId][attribute] != restrictions[attribute]){
+                        meetsCriteria = false;
+                        break;
+                    }
+                }
+
+                if(meetsCriteria){
+                    $('.'+dataId).addClass('highlight');
+                    $('#'+dataId+" td").addClass('highlight');
+                }
+            }
+        });
+
+        $('#basic-example').on('mouseleave', '.node', function(e) {
+            $('.highlight').removeClass('highlight');
+        });
     }
 
     var getNewNode = function(parent, text, aClass, attribute, value){
@@ -134,109 +249,4 @@ $(document).ready(function(){
     }
 
     initializeSuperheroes();
-
-    var rootNode = getNewNode();
-    var nodeElements = [rootNode];
-    var allNodes = [{node: rootNode, attribute: undefined, value: undefined}];
-    chart_config = generateConfig();
-    var tree = new Treant(chart_config, null, $);
-    var selected;
-
-    $('#basic-example').on('click', '.undecided', function(e){
-        if(selected){
-            selected.removeClass('selected');
-        }
-        selected = $(this);
-        $(this).addClass('selected');
-    });
-
-    $('.attribute').on('click', function(e){
-        if(!selected){
-            return;
-        }
-        var id = selected.attr('id');
-        selected.removeClass('selected');
-        selected.removeClass('undecided');
-        var attribute = $(this).attr('id');
-        selected.addClass(attribute);
-        var selectedNodeObject = nodeElements[id];
-        selectedNodeObject['HTMLclass'] = attribute;
-        var className = $(this).attr('data-name');
-        if (selectedNodeObject['text']['title']){
-            selectedNodeObject['text']['title'] = className;
-        } else {
-            selectedNodeObject['text']['name'] = className;
-        }
-        var attributeName = $(this).attr('data-name');
-
-        for(var valueIndex in attributes[attributeName]) {
-            var value = attributes[attributeName][valueIndex];
-            lastNodeIndex++;
-            var newNode = getNewNode(selectedNodeObject, undefined, 'undecided', attributeName, value);
-            allNodes[lastNodeIndex] = {
-                attribute: attributeName,
-                value: value,
-                node: newNode,
-                parent: allNodes[id],
-            };
-            nodeElements[lastNodeIndex] = newNode;
-        }
-        var new_config = generateConfig();
-        tree.destroy();
-        tree = new Treant(new_config);
-
-    });
-
-    $('.class').on('click', function(e){
-        if(!selected){
-            return;
-        }
-        var id = selected.attr('id');
-        selected.removeClass('selected');
-        selected.removeClass('undecided');
-        var attribute = $(this).attr('id');
-        selected.addClass(attribute);
-        var selectedNodeObject = nodeElements[id];
-        selectedNodeObject['HTMLclass'] = attribute;
-        var className = $(this).attr('data-name');
-        if (selectedNodeObject['text']['title']){
-            selectedNodeObject['text']['title'] = className;
-        } else {
-            selectedNodeObject['text']['name'] = className;
-        }
-        var new_config = generateConfig();
-        tree.destroy();
-        tree = new Treant(new_config);
-    });
-
-    $('#basic-example').on('mouseover', '.node', function(e) {
-        var elementHovered = $(this).attr('id');
-        var elementNode = nodeElements[elementHovered];
-        var node = allNodes[elementHovered];
-
-        var restrictions = {};
-        while(node.attribute){
-            restrictions[ node.attribute ] = node.value;
-            node = node.parent;
-        }
-        for(var dataId in dataset){
-            var meetsCriteria = true;
-            for(var attribute in restrictions){
-                if(dataset[dataId][attribute] != restrictions[attribute]){
-                    meetsCriteria = false;
-                    break;
-                }
-            }
-
-            if(meetsCriteria){
-                console.log(dataId);
-                $('.'+dataId).addClass('highlight');
-                $('#'+dataId+" td").addClass('highlight');
-            }
-        }
-    });
-
-    $('#basic-example').on('mouseleave', '.node', function(e) {
-        $('.highlight').removeClass('highlight');
-    });
 });
