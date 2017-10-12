@@ -1,0 +1,66 @@
+var superheroesDataset = {
+"Batman" : {
+        "Gender" : 	"Man",
+        "Mask" : 	"Yes",
+        "Cape" : 	"Yes",
+        "Tie" : 	"No",
+        "Ears" : 	"Yes",
+        "Fights" : 	"Yes",
+        "class" : 	"Good"
+},
+"Robin" : {
+        "Gender" : 	"Man",
+        "Mask" : 	"Yes",
+        "Cape" : 	"Yes",
+        "Tie" : 	"No",
+        "Ears" : 	"No",
+        "Fights" : 	"Yes",
+        "class" : 	"Good"
+},
+"Alfred" : {
+        "Gender" : 	"Man",
+        "Mask" : 	"No",
+        "Cape" : 	"No",
+        "Tie" : 	"Yes",
+        "Ears" : 	"No",
+        "Fights" : 	"No",
+        "class" : 	"Good"
+},
+"Penguin" : {
+        "Gender" : 	"Man",
+        "Mask" : 	"No",
+        "Cape" : 	"No",
+        "Tie" : 	"Yes",
+        "Ears" : 	"No",
+        "Fights" : 	"Yes",
+        "class" : 	"Evil"
+},
+"Catwoman" : {
+        "Gender" : 	"Woman",
+        "Mask" : 	"Yes",
+        "Cape" : 	"No",
+        "Tie" : 	"No",
+        "Ears" : 	"Yes",
+        "Fights" : 	"No",
+        "class" : 	"Evil"
+},
+"Joker" : {
+        "Gender" : 	"Man",
+        "Mask" : 	"No",
+        "Cape" : 	"No",
+        "Tie" : 	"No",
+        "Ears" : 	"No",
+        "Fights" : 	"No",
+        "class" : 	"Evil"
+}
+};
+var superheroesClasses = ["Good", "Evil"];
+
+var superheroesAttributes = {
+            'Gender': ['Man', 'Woman'],
+            'Mask': ['Yes', 'No'],
+            'Cape': ['Yes', 'No'],
+            'Tie': ['Yes', 'No'],
+            'Ears': ['Yes', 'No'],
+            'Fights': ['Yes', 'No']
+        };
