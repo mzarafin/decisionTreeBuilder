@@ -37,7 +37,7 @@ $(document).ready(function(){
     }
 
     var initializeAttributes = function() {
-        $("#problemMetadata").removeClass('hidden');
+        $('#attributeMetadata').append("<tr><th>Attributes</th></tr>");
         var i = 0;
         for (var attribute in attributes){
             var element = "<tr><td><div class=\'attribute attribute"+i+"\' id=attribute"+i+" data-name="+attribute+">"+attribute+"</div></td></tr>";
@@ -48,6 +48,7 @@ $(document).ready(function(){
     };
 
     var initializeClasses = function() {
+        $('#classMetadata').append("<tr><th>Classes</th></tr>");
         for (var i = classes.length-1; i >=0 ; i--) {
             var aClass = classes[i];
             var element = "<tr><td><div class=\'class class"+i+"\' id=class"+i+" data-name="+aClass+">"+aClass+"</div></td></tr>";
