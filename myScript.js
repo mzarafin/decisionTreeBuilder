@@ -9,6 +9,9 @@ $(document).ready(function(){
         }
     };
     var lastNodeIndex = 0;
+    var attributes; 
+    var classes;
+
 
     function sleep(ms) {
       return new Promise(resolve => setTimeout(resolve, ms));
@@ -36,11 +39,100 @@ $(document).ready(function(){
         var classes = ['Good', 'Evil'];
         for (var i = classes.length-1; i >=0 ; i--) {
             var aClass = classes[i];
-            var element = "<div class=\'class class"+i+"\' id=class"+i+"data-name="+aClass+">"+aClass+"</div>";
+            var element = "<div class=\'class class"+i+"\' id=class"+i+" data-name="+aClass+">"+aClass+"</div>";
             $('#problemMetadata').append(element);
         }
         return classes;
     };
+
+    var example1Dataset = function() {
+        var dataset = {};
+        dataset['Batman'] = {};
+        dataset['Batman']['Gender'] = 'Man';
+        dataset['Batman']['Mask'] = 'Yes';
+        dataset['Batman']['Cape'] = 'Yes';
+        dataset['Batman']['Tie'] = 'No';
+        dataset['Batman']['Ears'] = 'Yes';
+        dataset['Batman']['Fights'] = 'Yes';
+        dataset['Batman']['class'] = 'Good';
+
+        dataset['Robin'] = {};
+        dataset['Robin']['Gender'] = 'Man';
+        dataset['Robin']['Mask'] = 'Yes';
+        dataset['Robin']['Cape'] = 'Yes';
+        dataset['Robin']['Tie'] = 'No';
+        dataset['Robin']['Ears'] = 'No';
+        dataset['Robin']['Fights'] = 'Yes';
+        dataset['Robin']['class'] = 'Good';
+
+        dataset['Alfred'] = {};
+        dataset['Alfred']['Gender'] = 'Man';
+        dataset['Alfred']['Mask'] = 'No';
+        dataset['Alfred']['Cape'] = 'No';
+        dataset['Alfred']['Tie'] = 'Yes';
+        dataset['Alfred']['Ears'] = 'No';
+        dataset['Alfred']['Fights'] = 'No';
+        dataset['Alfred']['class'] = 'Good';
+
+        dataset['Penguin'] = {};
+        dataset['Penguin']['Gender'] = 'Man';
+        dataset['Penguin']['Mask'] = 'No';
+        dataset['Penguin']['Cape'] = 'No';
+        dataset['Penguin']['Tie'] = 'Yes';
+        dataset['Penguin']['Ears'] = 'No';
+        dataset['Penguin']['Fights'] = 'Yes';
+        dataset['Penguin']['class'] = 'Evil';
+
+        dataset['Catwoman'] = {};
+        dataset['Catwoman']['Gender'] = 'Woman';
+        dataset['Catwoman']['Mask'] = 'Yes';
+        dataset['Catwoman']['Cape'] = 'No';
+        dataset['Catwoman']['Tie'] = 'No';
+        dataset['Catwoman']['Ears'] = 'Yes';
+        dataset['Catwoman']['Fights'] = 'No';
+        dataset['Catwoman']['class'] = 'Evil';
+
+        dataset['Joker'] = {};
+        dataset['Joker']['Gender'] = 'Man';
+        dataset['Joker']['Mask'] = 'No';
+        dataset['Joker']['Cape'] = 'No';
+        dataset['Joker']['Tie'] = 'No';
+        dataset['Joker']['Ears'] = 'No';
+        dataset['Joker']['Fights'] = 'No';
+        dataset['Joker']['class'] = 'Evil';
+
+        $('#dataset').append("<tr>");
+        $('#dataset').append("<th>ID</th>");
+        for (var attribute in attributes){
+            $('#dataset').append("<th>"+attribute+"</th>");
+        }        
+        $('#dataset').append("<th>Class</th>");
+        $('#dataset').append("</tr>");
+
+        for (var name in dataset) {
+            var instance = dataset[name];
+            $('#dataset').append("<tr>");
+            var instanceNameElement = "<td class=\'instanceName\' id=instance"+name+"data-name=instance"+name+">"+name+"</td>";
+            $('#dataset').append(instanceNameElement);
+
+            for (var attributeName in instance) {
+                var attributeValue = instance[attributeName];
+                var attributeValueElement =  "<td class=attributeValue>" + attributeValue + "</td>";
+                $('#dataset').append(attributeValueElement);
+            }
+
+            $('#dataset').append("</tr>");
+        }
+
+
+        return dataset;
+    }
+
+    var initializeExample1 = function() {
+        classes = example1Classes();
+        attributes = example1Attributes();
+        dataset = example1Dataset();
+    }
 
     var getNewNode = function(parent, text, aClass, attribute, value){
         if(text === undefined) text = "Select attribute here";
@@ -85,12 +177,11 @@ $(document).ready(function(){
         return treeConfig;
     }
 
+    initializeExample1();
     var rootNode = getNewNode();
     var allNodes = [rootNode];
     chart_config = generateConfig();
     var tree = new Treant(chart_config, null, $);
-    var attributes = example1Attributes();
-    var classes = example1Classes();
     var selected;
 
     $('#basic-example').on('click', '.undecided', function(e){
@@ -101,7 +192,7 @@ $(document).ready(function(){
         $(this).addClass('selected');
     });
 
-    $('.attribute,.class').on('click', function(e){
+    $('.attribute').on('click', function(e){
         if(!selected){
             return;
         }
@@ -123,22 +214,39 @@ $(document).ready(function(){
         for(var valueIndex in attributes[attributeName]) {
             var value = attributes[attributeName][valueIndex];
             lastNodeIndex++;
-            //    var getNewNode = function(parent, text, aClass, attribute, value){
             var newNode = getNewNode(selectedNodeObject, undefined, 'undecided', attributeName, value);
             allNodes[lastNodeIndex] = newNode;
-            //Tree.prototype.addNode(selectedNodeObject, newNode);
         }
-        console.log('before generate config');
-        console.log(JSON.stringify(allNodes));
         var new_config = generateConfig();
-        console.log('before destroy');
-        console.log(JSON.stringify(new_config));
         tree.destroy();
-        //window.setTimeout(function() {
         tree = new Treant(new_config);
-        //}, 1);
-        console.log('after all');
-        console.log(tree);
+
+    });
+
+    $('.class').on('click', function(e){
+        if(!selected){
+            return;
+        }
+        var id = selected.attr('id');
+        selected.removeClass('selected');
+        selected.removeClass('undecided');
+        var attribute = $(this).attr('id');
+        selected.addClass(attribute);
+        var selectedNodeObject = allNodes[id];
+        selectedNodeObject['HTMLclass'] = attribute;
+        var className = $(this).attr('data-name');
+        if (selectedNodeObject['text']['title']){
+            selectedNodeObject['text']['title'] = className;
+        } else {
+            selectedNodeObject['text']['name'] = className;
+        }
+        var new_config = generateConfig();
+        tree.destroy();
+        tree = new Treant(new_config);
+    });
+
+    $('.node-name').on('mouseover', function(e){
+        var elementHovered = $(this).attr('id');
 
     });
 });

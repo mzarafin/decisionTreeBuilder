@@ -2149,7 +2149,7 @@
 		if ( jsonConfig instanceof Array ) {
 			jsonConfig = JSONconfig.make( jsonConfig );
 		}
-		console.log(JSON.stringify(jsonConfig));
+//		console.log(JSON.stringify(jsonConfig));
 
 		// optional
 		if ( jQuery ) {
