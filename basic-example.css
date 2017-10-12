@@ -7,7 +7,7 @@ h1,h2,h3,h4,h5,h6 { font-size:100%; font-weight:normal; }
 q:before,q:after { content:''; }
 abbr,acronym { border:0; }
 
-body { background: #f2f2f2; }
+body { background: #f2f2f2; font-size: 14px; font-family: Nunito;}
 /* optional Container STYLES */
 /*.chart { height: 600px; margin: 5px; width: 900px; }*/
 .Treant > .node {  }
@@ -15,14 +15,12 @@ body { background: #f2f2f2; }
 .node-name { font-weight: bold;}
 
 .nodeExample1,.attribute,.class {
-    padding: 2px;
+    padding: 3px;
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
     border-radius: 3px;
     background-color: #ffffff;
     border: 1px solid #000;
-    font-family: Tahoma;
-    font-size: 12px;
 }
 
 .nodeExample1.undecided {
@@ -92,10 +90,9 @@ th {
     color: white;
 }
 
-.highlight { 
-    text: bold;
-    background-color: #9fbff2;
-    border-color:red;
+.highlight {
+    background-color:   #d9d9d9;
+    color: #c0791b;
 }
 
 .class0{

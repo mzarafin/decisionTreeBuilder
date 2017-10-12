@@ -111,13 +111,13 @@ $(document).ready(function(){
 
         for (var name in dataset) {
             var instance = dataset[name];
-            $('#dataset').append("<tr id="+name+">");
-            var instanceNameElement = "<td class=\'instanceName\' id=instance"+name+" data-name=instance"+name+">"+name+"</td>";
+            $('#dataset').append("<tr>");
+            var instanceNameElement = "<td class=\'"+name+"\' id=instance"+name+" data-name=instance"+name+">"+name+"</td>";
             $('#dataset').append(instanceNameElement);
 
             for (var attributeName in instance) {
                 var attributeValue = instance[attributeName];
-                var attributeValueElement =  "<td class=attributeValue>" + attributeValue + "</td>";
+                var attributeValueElement =  "<td class=\'attributeValue "+name+"\'>" + attributeValue + "</td>";
                 $('#dataset').append(attributeValueElement);
             }
 
@@ -276,7 +276,9 @@ $(document).ready(function(){
             }
 
             if(meetsCriteria){
-                $('#instance'+dataId).addClass('highlight');
+                console.log(dataId);
+                $('.'+dataId).addClass('highlight');
+                $('#'+dataId+" td").addClass('highlight');
             }
         }
     });
