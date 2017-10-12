@@ -248,5 +248,11 @@ $(document).ready(function(){
         return treeConfig;
     }
 
-    initializeSuperheroes();
+    $('#superheroes').on('click', function(e){
+        $('#examples').hide();
+        initializeSuperheroes();
+    });
+
+    //initializeSuperheroes();
+
 });

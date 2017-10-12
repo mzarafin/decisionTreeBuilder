@@ -67,6 +67,27 @@ div#basic-example
     margin-right:5%;
 }
 
+#examples
+{
+    text-align: center;
+    margin-left:15%; 
+    margin-right:15%;
+    margin-top:25%;
+    margin-bottom: 25%
+    position: relative;
+}
+
+#examples button {
+    padding: 10px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    background-color: #c0791b;
+    border: 1px solid #000;
+    font-size: 20px;
+    color: white;
+}
+
 table#dataset
 {
     bottom: 20px;
