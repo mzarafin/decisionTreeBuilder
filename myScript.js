@@ -105,6 +105,16 @@ $(document).ready(function(){
         initializeEvents();
     }
 
+    var initializeDebt = function() {
+        classes = debtClasses;
+        attributes = debtAttributes;
+        dataset = debtDataset;
+        initializeClasses();
+        initializeAttributes();
+        initializeDataset();        
+        initializeTree();
+        initializeEvents();
+    }
     var initializeTree = function () {
         rootNode = getNewNode();
         nodeElements = [rootNode];
@@ -156,7 +166,7 @@ $(document).ready(function(){
             var new_config = generateConfig();
             tree.destroy();
             tree = new Treant(new_config);
-
+            selected = undefined;
         });
 
         $('.class').on('click', function(e){
@@ -179,6 +189,7 @@ $(document).ready(function(){
             var new_config = generateConfig();
             tree.destroy();
             tree = new Treant(new_config);
+            selected = undefined;
         });
 
         $('#basic-example').on('mouseover', '.node', function(e) {
@@ -268,6 +279,12 @@ $(document).ready(function(){
         $('#examples').hide();
         initializeFromaloons();
     });
+
+    $('#debt').on('click', function(e){
+        $('#examples').hide();
+        initializeDebt();
+    });
+
 
 
     //initializeSuperheroes();

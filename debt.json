@@ -1,0 +1,108 @@
+var debtDataset = {
+    "1" : {
+        'Credit_History': 'Bad',
+        'Debt': 'High',
+        'Collateral': 'None',
+        'Income': '$0 to $15k',
+        'class': 'High'
+    },
+    "2" : {
+        'Credit_History': 'Unknown',
+        'Debt': 'High',
+        'Collateral': 'None',
+        'Income': '$15k to $35k',
+        'class': 'High'
+    },
+    "3" : {
+        'Credit_History': 'Unknown',
+        'Debt': 'Low',
+        'Collateral': 'None',
+        'Income': '$15k to $35k',
+        'class': 'Moderate'
+    },
+    "4" : {
+        'Credit_History': 'Unknown',
+        'Debt': 'Low',
+        'Collateral': 'None',
+        'Income': '$0 to $15k',
+        'class': 'High'
+    },
+    "5" : {
+        'Credit_History': 'Unknown',
+        'Debt': 'Low',
+        'Collateral': 'None',
+        'Income': 'Over $35k',
+        'class': 'Low'
+    },
+    "6" : {
+        'Credit_History': 'Unknown',
+        'Debt': 'Low',
+        'Collateral': 'Adequate',
+        'Income': 'Over $35k',
+        'class': 'Low'
+    },
+    "7" : {
+        'Credit_History': 'Bad',
+        'Debt': 'Low',
+        'Collateral': 'None',
+        'Income': '$0 to $15k',
+        'class': 'High'
+    },
+    "8" : {
+        'Credit_History': 'Bad',
+        'Debt': 'Low',
+        'Collateral': 'Adequate',
+        'Income': 'Over $35k',
+        'class': 'Moderate'
+    },
+    "9" : {
+        'Credit_History': 'Good',
+        'Debt': 'Low',
+        'Collateral': 'None',
+        'Income': 'Over $35k',
+        'class': 'Low'
+    },
+    "10" : {
+        'Credit_History': 'Good',
+        'Debt': 'High',
+        'Collateral': 'Adequate',
+        'Income': 'Over $35k',
+        'class': 'Low'
+    },
+    "11" : {
+        'Credit_History': 'Good',
+        'Debt': 'High',
+        'Collateral': 'None',
+        'Income': '$0 to $15k',
+        'class': 'High'
+    },
+    "12" : {
+        'Credit_History': 'Good',
+        'Debt': 'High',
+        'Collateral': 'None',
+        'Income': '$15k to $35k',
+        'class': 'Moderate'
+    },
+    "13" : {
+        'Credit_History': 'Good',
+        'Debt': 'High',
+        'Collateral': 'None',
+        'Income': 'Over $35k',
+        'class': 'Low'
+    },
+    "14" : {
+        'Credit_History': 'Bad',
+        'Debt': 'High',
+        'Collateral': 'None',
+        'Income': '$15k to $35k',
+        'class': 'High'
+    },
+};
+var debtClasses = ["High", "Moderate", "Low"];
+
+var debtAttributes = {
+            'Credit_History': ['Bad', 'Unknown', 'Good'],
+            'Debt': ['High', 'Low'],
+            'Collateral': ['None', 'Adequate'],
+            'Income': ['$0 to $15k', '$15k to $35k', 'Over $35k']
+        };

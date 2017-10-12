@@ -90,12 +90,10 @@ div#basic-example
 
 table#dataset
 {
-    bottom: 20px;
+    bottom: 10px;
     left: 10px;
     position: absolute;
-    margin-top:80px;
     text-align: center;
-
     width:70%; 
     margin-left:15%; 
     margin-right:15%;
@@ -124,6 +122,9 @@ th {
 }
 .class1{
     background-color: #BA5536;
+}
+.class2{
+    background-color: #2D4262;
 }
 .attribute0{
     background-color: #375E97;
