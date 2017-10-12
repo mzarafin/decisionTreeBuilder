@@ -12,10 +12,6 @@
 </head>
 
 <body>
-
-    <div id='problemMetadata'>
-    </div>
-    <span id='space'></span>
     <div class="chart" id="basic-example"></div>
     <script src="raphael.js"></script>
     <script src="Treant.js"></script>
@@ -27,10 +23,22 @@
         <button id='debt'>Debt risk</button>
     </div>
 
-    <div style="text-align:center;">
-        <table id ="dataset" class="center">
-        </table>
+
+    <div style="width: 100%; margin-bottom: 5px; position: absolute">
+        <div style="float: left; width: 70%;">
+            <table id ="dataset" class="center">
+            </table>
+        </div>
+        <div id='problemMetadata' class='hidden' style='float: right;'>
+            <table id='attributeMetadata'>
+                <tr><th>Attributes</th></tr>
+            </table>
+            <table id='classMetadata'>
+                <tr><th>Classes</th></tr>
+            </table>
+        </div>
     </div>
+    <div style="clear:both"></div>
 
 </body>
 </html>

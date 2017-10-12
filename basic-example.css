@@ -10,6 +10,9 @@ abbr,acronym { border:0; }
 body { background: #f2f2f2; font-size: 14px; font-family: Nunito;}
 /* optional Container STYLES */
 /*.chart { height: 600px; margin: 5px; width: 900px; }*/
+.hidden {
+  display: none; 
+}
 .Treant > .node {  }
 .Treant > p { font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; font-weight: bold; font-size: 12px; }
 .node-name { font-weight: bold;}
@@ -55,9 +58,6 @@ body { background: #f2f2f2; font-size: 14px; font-family: Nunito;}
 
 div#problemMetadata
 {
-    width:90%; 
-    margin-left:5%; 
-    margin-right:5%;
 }
 
 div#basic-example 
@@ -88,26 +88,42 @@ div#basic-example
     color: white;
 }
 
+table#attributeMetadata {
+    border: none;
+    float: right;
+    display: block;
+}
+table#classMetadata {
+    border: none;
+    float: right;
+    display: block;
+}
+
+#classMetadata th, #attributeMetadata th {
+    background-color: #599191;
+    color: white;
+}
+
 table#dataset
 {
     bottom: 10px;
     left: 10px;
-    position: absolute;
     text-align: center;
-    width:70%; 
-    margin-left:15%; 
-    margin-right:15%;
+    margin-left:5px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    width: 100%;
 }
 
 table#dataset, th, td {
     border: 1px solid black;
-    padding-left: 10px;
-    padding-right: 10px;
+    padding-left: 3px;
+    padding-right: 3px;
     padding-top: 5px;
     padding-bottom: 5px;
 }
 
-th {
+#dataset th {
     background-color: #c0791b;
     color: white;
 }
